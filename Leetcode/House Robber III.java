@@ -23,7 +23,7 @@ public class Solution {
 
         int[] res = new int[2];  // 获得当前节点的值
         res[0] = x.val + left[1] + right[1];  // 抢当前节点的情况
-        res[1] = left[0] + right[0];  // 不抢当前节点的情况
+        res[1] = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);  // 不抢当前节点的情况
 
         return res;
     }
