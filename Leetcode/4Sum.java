@@ -1,61 +1,35 @@
 public class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
 
-    private int len;
-
-    public List<List<Integer>> fourSum(int[] nums, int target) {
-
-        len = nums.length;
         Arrays.sort(nums);
-        return nSum(nums, target, 0, 4);
-    }
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i] == nums[i-1]) continue;
 
-    private List<List<Integer>> nSum(int[] nums, int target, int start, int n) {
-
-        List<List<Integer>> result = new ArrayList<>();
-
-        if (n == 2) {
-
-            int i = start, j = len - 1;
-            while (i < j) {
-
-                if (nums[i] + nums[j] == target) {
-
-                    List<Integer> temp = new ArrayList<>();
-
-                    temp.add(nums[i]);
-                    temp.add(nums[j]);
-                    result.add(temp);
-
-                    while (i < j && nums[i] == nums[i+1]) i++;
-                    while (i < j && nums[j] == nums[j-1]) j--;
-                    i++;
-                    j--;
+            int j = i+1;
+            int k = nums.length-1;
+            while (j < k) {
+                int temp = nums[i] + nums[j] + nums[k];
+                if (temp < 0) {
+                    j++;
+                    while (nums[j] == nums[j-1] && j < k) j++;
                 }
-                else if (nums[i] + nums[j] < target) i++;
-                else j--;
-            }
-        }
-        else {
-
-            for (int i = start; i <= len - n; i++) {
-
-                List<List<Integer>> temp = nSum(nums, target - nums[i], i + 1, n - 1);
-                if (!temp.isEmpty()) {
-
-                    for (List<Integer> l : temp) {
-
-                        l.add(0, nums[i]);
+                else if (temp > 0) {
+                    k--;
+                    while (nums[k] == nums[k+1] && j < k) k--;
+                }
+                else {
+                    res.add(Arrays.asList(nums[i], nums[j], nums[k]));
+                    j++;
+                    k--;
+                    while (nums[j] == nums[j-1] && nums[k] == nums[k+1] && j < k) {
+                        j++;
+                        k--;
                     }
-                    result.addAll(temp);
-                }
-
-                while (i < len - 1 && nums[i] == nums[i+1]) {
-
-                    i++;
                 }
             }
         }
 
-        return result;
+        return res;
     }
 }
