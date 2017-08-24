@@ -6,65 +6,86 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-        Scanner in = new Scanner(System.in);
+        String src = sc.nextLine();
+        String dst = sc.nextLine();
+        String[] temp = sc.nextLine().split(" ");
 
-        String src = in.next();
-        String tar = in.next();
+        int s = 0, d = 0;
+        List<String> list = new ArrayList<>();  // 单词列表，src编号为0，dst编号为d
 
-        List<String> temp = new LinkedList<>();
-        temp.add(src);
-        while (in.hasNext()) temp.add(in.next());
-
-        int len = temp.size();
-
-        String[] list = temp.toArray(new String[len]);
-        int[][] dis = new int[len][len];
-
-        for (int i = 0; i < len; i++) {
-            for (int j = 0; j < len; j++) {
-
-                if (i == j) continue;
-                dis[i][j] = diff(list[i], list[j]);
-            }
+        list.add(src);
+        for (int i = 0, count = 1; i < temp.length; i++, count++) {
+            if (temp[i].equals(dst)) d = count;
+            list.add(temp[i]);
         }
 
-        Queue<Integer> q = new LinkedList<>();  // 保存下标即可
-        int[] level = new int[len];  // 用于记录层数
+        int V = list.size();  // 节点数
+        List<Pair>[] adj = (LinkedList<Pair>[]) new LinkedList[V];  // 邻接表
+        for (int i = 0; i < V; i++) {
+            adj[i] = new LinkedList<>();
+        }
 
-        level[0] = 1;
-        int i = 0;
-
-        while (true) {
-            for (int j = 0; j < len; j++) {
-
-                if (level[j] == 0 && dis[i][j] == 1) {
-
-                    if (list[j].equals(tar)) {
-
-                        System.out.println(level[i] + 1);
-                        return;
-                    } else {
-
-                        level[j] = level[i] + 1;
-                        q.offer(j);
-                    }
+        for (int i = 0; i < V; i++) {
+            for (int j = i + 1; j < V; j++) {
+                if (hasEdge(list.get(i), list.get(j))) {
+                    addEdge(adj, i, j, 1.0);
                 }
             }
-            i = q.poll();
         }
+
+        double[] dist = new double[V];
+        for (int i = 0; i < V; i++) {
+            dist[i] = Double.POSITIVE_INFINITY;
+        }
+        dist[s] = 0;
+
+        Queue<Pair> pq = new PriorityQueue<>(new Comparator<Pair>() {
+            @Override
+            public int compare(Pair o1, Pair o2) {
+                return Double.compare(o1.w, o2.w);
+            }
+        });
+        pq.offer(new Pair(s, 0.0));
+
+        while (!pq.isEmpty()) {
+            int u = pq.poll().v;
+
+            for (Pair pair : adj[u]) {
+                int v = pair.v;
+                double w = pair.w;
+
+                if (dist[v] > dist[u] + w) {
+                    dist[v] = dist[u] + w;
+                    pq.offer(new Pair(v, dist[v]));
+                }
+            }
+        }
+
+        System.out.println((int) dist[d] + 1);
     }
 
-    private static int diff(String a, String b) {
+    private static void addEdge(List<Pair>[] adj, int u, int v, double w) {
+        adj[u].add(new Pair(v, w));
+        adj[v].add(new Pair(u, w));
+    }
 
-        int len = a.length();
+    private static boolean hasEdge(String a, String b) {
         int count = 0;
-
-        for (int i = 0; i < len; i++) {
-
+        for (int i = 0; i < a.length(); i++) {
             if (a.charAt(i) != b.charAt(i)) count++;
         }
+        return count == 1;
+    }
+}
 
-        return count;
+class Pair {
+    int v;
+    double w;
+
+    Pair(int v, double w) {
+        this.v = v;
+        this.w = w;
     }
 }
