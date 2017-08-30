@@ -11,39 +11,39 @@
          System.out.println(Arrays.toString(x));
      }
 
-     private static void exch(int[] num, int i, int j) {
+     private static void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
 
-         int temp = num[i];
-         num[i] = num[j];
-         num[j] = temp;
-     }
+    // 大根堆
+    private static void sink(int[] nums, int p, int N) {
+        while (2 * p <= N) {
+            int k = 2 * p;
 
-     private static void sink(int[] num, int pos, int end) {
+            if (k < N && nums[k] < nums[k + 1]) k++;
+            
+            if (nums[k] > nums[p]) {
+                swap(nums, p, k);
+                p = k;
+            } else {
+                break; // 不要忘记break
+            }
+        }
+    }
 
-         while (2 * pos <= end) {
+    // 从nums[1]开始排序
+    private static void sort(int[] nums) {
+        int N = nums.length - 1;
 
-             int max = 2 * pos;
-             if (max < end && num[max + 1] > num[max]) max++;
+        for (int i = N / 2; i >= 1; i--) {
+            sink(nums, i, N);
+        }
 
-             if (num[max] > num[pos]) {
-
-                 exch(num, max, pos);
-                 pos = max;
-             } else break;
-         }
-     }
-
-     public static void sort(int[] num) {
-
-         int N = num.length - 1;
-         for (int i = N / 2; i >= 1; i--) {
-
-             sink(num, i, N);
-         }
-
-         while (N > 1) {
-             exch(num, 1, N--);
-             sink(num, 1, N);
-         }
-     }
+        while (N > 1) {
+            swap(nums, 1, N--);
+            sink(nums, 1, N);
+        }
+    }
  }

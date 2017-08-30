@@ -12,35 +12,31 @@
          System.out.println(Arrays.toString(x));
      }
 
-     private static void exch(int[] num, int i, int j) {
+     private static void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
 
-         int temp = num[i];
-         num[i] = num[j];
-         num[j] = temp;
-     }
+    private static int partition(int[] nums, int start, int end) {
+        int pivot = nums[start];
 
-     private static int partition(int[] num, int begin, int end) {
+        int i = start, j = end;
+        while (i < j) {
+            while (i < j && nums[j] >= pivot) j--;
+            while (i < j && nums[i] <= pivot) i++;
+            swap(nums, i, j);
+        }
+        swap(nums, start, i);
 
-         int pivot = num[begin];
-         int i = begin, j = end;
+        return i;
+    }
 
-         while (i < j) {
+    public static void sort(int[] nums, int start, int end) {
+        if (start >= end) return;
 
-             while (i < j && num[j] >= pivot) j--;
-             while (i < j && num[i] <= pivot) i++;
-             exch(num, i, j);
-         }
-         exch(num, begin, i);
-
-         return i;
-     }
-
-		 public static void sort(int[] num, int begin, int end) {
-
-				 if (begin >= end) return;
-
-				 int pos = partition(num, begin, end);
-				 sort(num, begin, pos - 1);
-				 sort(num, pos + 1, end);
-		 }
+        int pos = partition(nums, start, end);
+        sort(nums, start, pos - 1);
+        sort(nums, pos + 1, end);
+    }
  }

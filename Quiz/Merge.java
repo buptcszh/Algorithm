@@ -7,36 +7,39 @@
      public static void main(String[] args) {
          int[] x = new int[]{2, 5, 9, 1, 3, 7, 3, 9};
 
-         int[] aux = new int[x.length];  // 辅助数组不要放在递归里
+         int[] aux = new int[x.length];  // 辅助数组放在main中定义
+         
          sort(x, aux, 0, x.length - 1);
          System.out.println(Arrays.toString(x));
      }
 
-     private static void merge(int[] num, int[] aux, int begin, int mid, int end) {
+     private static void merge(int[] nums, int[] aux, int start, int mid, int end) {
+        System.arraycopy(nums, start, aux, start, end - start + 1); // merge先copy数组
 
-         System.arraycopy(num, begin, aux, begin, end - begin + 1);
+        int i = start, j = mid + 1, k = start;
 
-         int i = begin, j = mid + 1, k = begin;
-         while (i <= mid && j <= end) {
+        while (i <= mid && j <= end) {
+            if (aux[i] < aux[j]) nums[k++] = aux[i++];
+            else nums[k++] = aux[j++];
+        }
 
-             if (aux[i] < aux[j])
-                 num[k++] = aux[i++];
-             else
-                 num[k++] = aux[j++];
-         }
+        while (i <= mid) {
+            nums[k++] = aux[i++];
+        }
 
-         while (i <= mid) num[k++] = aux[i++];
-         while (j <= end) num[k++] = aux[j++];
-     }
+        while (j <= end) {
+            nums[k++] = aux[j++];
+        }
+    }
 
-		 public static void sort(int[] num, int[] aux, int begin, int end) {
+    public static void sort(int[] nums, int[] aux, int start, int end) {
+        if (start >= end) return;
 
-				 if (begin >= end) return;
+        int mid = start + (end - start) / 2;
 
-				 int mid = begin + (end - begin) / 2;
+        sort(nums, aux, start, mid);
+        sort(nums, aux, mid + 1, end);
 
-				 sort(num, aux, begin, mid);
-				 sort(num, aux, mid + 1, end);
-				 merge(num, aux, begin, mid, end);
-		 }
+        merge(nums, aux, start, mid, end);
+    }
  }
