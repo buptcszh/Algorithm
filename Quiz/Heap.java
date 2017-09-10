@@ -22,9 +22,9 @@
         while (2 * p <= N) {
             int k = 2 * p;
 
-            if (k < N && nums[k] < nums[k + 1]) k++;
+            if (k < N && nums[k] < nums[k + 1]) k++;  // 选最大的
             
-            if (nums[k] > nums[p]) {
+            if (nums[p] < nums[k]) {
                 swap(nums, p, k);
                 p = k;
             } else {

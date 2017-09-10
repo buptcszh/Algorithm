@@ -3,7 +3,7 @@
  */
 import java.util.*;
 
-public class Selection {	
+public class Bubble {	
     public static void main(String[] args) {
         int[] nums = new int[]{1, 3, 2, 0, 9};
         sort(nums);
@@ -12,11 +12,16 @@ public class Selection {
 
     public static void sort(int[] nums) {
         for (int i = 0; i < nums.length; i++) {
-            int min = i;
-            for (int j = i + 1; j < nums.length; j++) {
-                if (nums[j] < nums[min]) min = j;
+            boolean moved = false;
+            
+            for (int j = 0; j < nums.length - i - 1; j++) {
+                if (nums[j] > nums[j + 1]) {
+                    swap(nums, j, j + 1);
+                    moved = true;
+                }
             }
-            swap(nums, i, min);
+            
+            if (!moved) break;  // 没有移动过，则停止
         }
     }
 

@@ -8,6 +8,7 @@
 
 import java.util.*;
 
+// 动态规划法
 public class Main {
 
     public static void main(String[] args) {
@@ -44,3 +45,41 @@ public class Main {
         System.out.println(dp[n][n] - count);
     }
 }
+
+// 母函数法
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        int[] c1 = new int[n + 1];  // 保存最终结果的系数
+        int[] c2 = new int[n + 1];  // 保存临时结果的系数
+
+        c1[0] = 1;  // 一开始最终结果为1，即1*x^0+0*x^1+...+0*x^n
+
+        for (int i = 1; i <= n; i++) {              // 与第i个括号相乘
+            for (int j = 0; j <= n; j += i) {       // 第i个括号里的幂次j，整数i的步长为i
+                for (int k = 0; k + j <= n; k++) {  // 遍历最终结果中的所有幂次k，相乘以后的幂次为k+j，保存在临时结果中
+                    c2[k + j] += c1[k];             // 累加的是k次幂的系数，因为j次幂的系数是1
+                }
+            }
+
+            // 交换，并将临时结果清空
+            for (int k = 0; k <= n; k++) {
+                c1[k] = c2[k];
+                c2[k] = 0;
+            }
+        }
+
+        System.out.println(c1[n]);
+    }
+}
+
+// 母函数法还可以解决：
+
+// 求用1分、2分、3分的邮票贴出不同数值的方案数（每张邮票的数量是无限的）
+// 那么
+// 1分：(1+x^1+x^2+x^3+x^4+......)，即0张1分、1张1分、2张1分...
+// 2分：(1+x^2+x^4+x^6+x^8+......)，即0张2分、1张2分、2张2分...
+// 3分：(1+x^3+x^6+x^9+x^12+......)，即0张3分、1张3分、3张3分...
+// 然后这3个乘起来，x^n的系数即贴出n分的方案数
