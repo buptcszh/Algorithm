@@ -1,4 +1,6 @@
 import java.util.Scanner;
+
+
 public class UnionFind {
     private int[] id;     // 记录节点的parent
     private int[] size;   // 记录集合的大小
