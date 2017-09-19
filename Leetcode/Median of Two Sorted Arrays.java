@@ -8,8 +8,8 @@ public class Solution {
 
     // 二分法
     private int getKth(int[] nums1, int s1, int[] nums2, int s2, int k) {
-        if (pos1 >= nums1.length) return nums2[s2 + k - 1];
-        if (pos2 >= nums2.length) return nums1[s1 + k - 1];
+        if (s1 >= nums1.length) return nums2[s2 + k - 1];
+        if (s2 >= nums2.length) return nums1[s1 + k - 1];
         if (k == 1) return Math.min(nums1[s1], nums2[s2]);
 
         // 比较nums1和nums2中的前k/2个数，但要注意数组中剩余的总数
