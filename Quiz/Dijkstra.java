@@ -26,7 +26,7 @@ public class Dijkstra {
         PriorityQueue<Pair> pq = new PriorityQueue<>(new Comparator<Pair>() {
             @Override
             public int compare(Pair o1, Pair o2) {
-                return Double.compare(o1.weight, o2.weight);
+                return Double.compare(o1.w, o2.w);
             }
         });
 
@@ -43,7 +43,7 @@ public class Dijkstra {
 
             for (Pair e : adj[u]) {
                 int v = e.v;
-                double weight = e.weight;
+                double weight = e.w;
 
                 if (dist[v] > dist[u] + weight) {
                     dist[v] = dist[u] + weight;

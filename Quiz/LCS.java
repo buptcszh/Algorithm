@@ -13,8 +13,8 @@ public class LCS {
             f[0][i] = a.charAt(0) == b.charAt(i) ? 1 : 0;
         }
 
-				// f[i][j] = f[i-1][j-1] + 1           , if a[i]=b[j]
-				//         = max{f[i][j-1], f[i-1][j]} , otherwise
+        // f[i][j] = f[i-1][j-1] + 1           , if a[i]=b[j]
+		//         = max{f[i][j-1], f[i-1][j]} , otherwise
         for (int i = 1; i < l1; i++) {
             for (int j = 1; j < l2; j++) {
 
@@ -42,8 +42,8 @@ public class LCS {
             f[0][i] = a.charAt(0) == b.charAt(i) ? 1 : 0;
         }
 
-				// f[i][j] = f[i-1][j-1] + 1 , if a[i]=b[j]
-			  //         = 0               , otherwise
+		// f[i][j] = f[i-1][j-1] + 1 , if a[i]=b[j]
+		//         = 0               , otherwise
         int max = 0;
         for (int i = 1; i < l1; i++) {
             for (int j = 1; j < l2; j++) {
@@ -57,7 +57,6 @@ public class LCS {
                     f[i][j] = 0;
             }
         }
-
         return max;
     }
 
