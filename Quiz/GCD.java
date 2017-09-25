@@ -1,3 +1,4 @@
+// 求最简分数可以用gcd
 public class Solution {
 
     public static void main(String[] args) {
