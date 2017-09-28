@@ -9,7 +9,7 @@ public class Backpack {
         System.out.println(res);
     }
 
-    //0-1背包（优化空间复杂度）
+    // 0-1背包（优化空间复杂度）
     // dp[i][v] = max{dp[i-1][v], dp[i-1][v-c(i)] + w(i)}
     public static int backpack1(int N, int V) {
         // dp[j]表示第i次循环结束后，将前j件物品放入背包中的最大价值
