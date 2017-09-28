@@ -15,9 +15,15 @@ public class Backpack {
         // dp[j]表示第i次循环结束后，将前j件物品放入背包中的最大价值
         int[] dp = new int[V+1];
 
+        // 如果要求【恰好装满】背包，初始化时只有在背包容量为0时价值为0，其余均用-1表示没有合法的解
+        // Arrays.fill(dp, -1);
+        // dp[0] = 0;
+
         for (int i = 0; i < N; i++) {
             // 【逆序】才能保证在计算dp[v]时，dp[v-c[i]]中存放的是上一次循环后的值
             for (int v = V; v >= c[i]; v--) {
+                // 要求恰好装满背包时，需要进行判断
+                // if (dp[v-c[i]] >= 0)
                 dp[v] = Math.max(dp[v], dp[v-c[i]] + w[i]);
             }
         }
@@ -40,16 +46,16 @@ public class Backpack {
         return dp[V];
     }
 
-    // 多重背包m
-    // dp[i][v] = max{dp[i-1][v - k * c[i-1]] + k * w[i-1]}, 0<=k<=m[i-1]
+    // 多重背包
+    // dp[i][v] = max{dp[i-1][v-k*c[i-1]] + k*w[i-1]}, 0<=k<=m[i-1]
     public static int backpack3(int N, int V) {
         int[][] dp = new int[N+1][V+1];
 
         for (int i = 1; i <= N; i++) {
             for (int v = 1; v <= V; v++) {
                 for (int k = 0; k <= m[i-1]; k++) {
-                    if (v - k * c[i-1] >= 0) {
-                        dp[i][v] = Math.max(dp[i][v], dp[i-1][v - k * c[i-1]] + k * w[i-1]);                        
+                    if (v-k*c[i-1] >= 0) {
+                        dp[i][v] = Math.max(dp[i][v], dp[i-1][v-k*c[i-1]] + k*w[i-1]);                        
                     }
                     else break;
                 }
