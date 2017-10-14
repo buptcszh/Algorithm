@@ -6,8 +6,8 @@ public class Solution {
             xor ^= num;
         }
 
-        // 求异或值bit位中最右边的1的位置
-        int bit = xor & -xor;  // 求负数的补码：最右边的1及其后边的bit不变，前边的取反
+        // 只保留二进制中最右边的1
+        int bit = xor & -xor;
 
         int[] res = {0, 0};
         for (int num : nums) {
