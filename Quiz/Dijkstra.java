@@ -23,6 +23,7 @@ public class Dijkstra {
     }
 
     public void shortestPath(int s) {
+        // 用优先队列保存unvisited nodes，这样可以用O(1)的时间复杂度找到距离源点最近的node
         PriorityQueue<Pair> pq = new PriorityQueue<>(new Comparator<Pair>() {
             @Override
             public int compare(Pair o1, Pair o2) {
@@ -39,7 +40,7 @@ public class Dijkstra {
         pq.offer(new Pair(s, 0.0));  // 这里的w是源点到该节点的最短距离
 
         while (!pq.isEmpty()) {
-            int u = pq.poll().v;
+            int u = pq.poll().v;  // dist[u]已经确定
 
             for (Pair e : adj[u]) {
                 int v = e.v;
@@ -47,7 +48,7 @@ public class Dijkstra {
 
                 if (dist[v] > dist[u] + weight) {
                     dist[v] = dist[u] + weight;
-                    // 由于优先队列无法实现decrease key的操作，这里直接再加入一个顶点的实例，对结果没有影响
+                    // decrease key。应该是先删除node，再添加node。但直接添加对结果也没有影响
                     pq.offer(new Pair(v, dist[v]));
                 }
             }
@@ -82,7 +83,7 @@ public class Dijkstra {
 
 class Pair {
     int v;     // 目标节点
-    double w;  // 边的权值（或源点到该节点的最短距离）
+    double w;  // 边的权值（或源点到该节点的最短距离【复用了w】）
 
     Pair(int v, double w) {
         this.v = v;
